@@ -1,6 +1,6 @@
 # gezamycar
 
-Carwash application
+Car wash application
 
 ## Getting Started
 
