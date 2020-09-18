@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:gezamycar/screens/create_account_screen.dart';
+import 'package:gezamycar/screens/forgot_password_screen.dart';
+import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/utils/form_validators.dart';
+import 'package:gezamycar/widgets/custom_flat_button.dart';
+import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:gezamycar/widgets/login_text_anim.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const String id = '/';
+
   final _formKey = GlobalKey<FormState>();
 
   void _submit() {
@@ -19,7 +25,7 @@ class LoginScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Container(
-          color: Colors.black87,
+          color: kBackgroundColor,
           child: Center(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
@@ -73,28 +79,33 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(
                                 height: 10.0,
                               ),
-                              MaterialButton(
-                                elevation: 5.0,
-                                height: 40.0,
+                              CustomMaterialButton(
                                 onPressed: _submit,
-                                color: Colors.tealAccent,
-                                minWidth: MediaQuery.of(context).size.width / 2,
-                                child: Text(
-                                  'Login',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20.0,
-                                  ),
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  side: BorderSide(
-                                    color: Colors.teal,
-                                    width: 2.0,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
+                                title: 'Login',
                               ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  CustomFlatButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, ForgotPasswordScreen.id);
+                                    },
+                                    title: "Reset Password",
+                                  ),
+                                  Text(
+                                    '|',
+                                    style: kTextStyle,
+                                  ),
+                                  CustomFlatButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, CreateAccountScreen.id);
+                                    },
+                                    title: "Create an account",
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),

@@ -9,8 +9,9 @@ class LoginTextAnim extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200.0,
+      width: 220.0,
       child: TextLiquidFill(
+        loadDuration: Duration(seconds: 20),
         boxBackgroundColor: Colors.black87,
         text: headingText,
         waveColor: Colors.white,

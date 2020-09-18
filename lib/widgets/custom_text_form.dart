@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gezamycar/utils/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final bool autoValidate;
@@ -24,19 +25,12 @@ class CustomTextFormField extends StatelessWidget {
       onChanged: onChanged,
       autovalidate: autoValidate,
       obscureText: isObscure,
-      decoration: InputDecoration(
-        labelStyle: TextStyle(color: Colors.grey),
+      style: kTextStyle,
+      decoration: kTextFormInputDecoration.copyWith(
         labelText: labelText,
-        filled: true,
-        fillColor: Colors.white12,
         prefixIcon: Icon(
           icon,
           color: Colors.teal,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
