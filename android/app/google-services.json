@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "769684876075",
+    "firebase_url": "https://geza-my-car.firebaseio.com",
+    "project_id": "geza-my-car",
+    "storage_bucket": "geza-my-car.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769684876075:android:572cad176c903e872df36e",
+        "android_client_info": {
+          "package_name": "za.co.rawbusttech.gezamycar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769684876075-m85vvrn0cu70apm473sncrbmdd8h4gam.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9VOTydmHfeD3qZ9YfMheolpXyHjZ9_qY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769684876075-m85vvrn0cu70apm473sncrbmdd8h4gam.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
