@@ -1,0 +1,3 @@
+mixin UserMixin {
+  void requestService() {}
+}
