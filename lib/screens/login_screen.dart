@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gezamycar/screens/create_account_screen.dart';
 import 'package:gezamycar/screens/forgot_password_screen.dart';
+import 'package:gezamycar/screens/signup_screen.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/utils/form_validators.dart';
 import 'package:gezamycar/widgets/custom_flat_button.dart';
@@ -80,6 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   _email = email.trim();
                                 },
                                 labelText: 'Email',
+                                isText: false,
+                                isEmail: true,
                                 icon: Icons.email,
                                 validator: (String _email) {
                                   return FormValidator.validateEmail(
@@ -125,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   CustomFlatButton(
                                     onPressed: () {
                                       Navigator.pushNamed(
-                                          context, CreateAccountScreen.id);
+                                          context, SignUpScreen.id);
                                     },
                                     title: "Create an account",
                                   ),

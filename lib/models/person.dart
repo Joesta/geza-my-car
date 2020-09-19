@@ -1,3 +1,6 @@
+import 'package:gezamycar/exceptions/my_exception.dart';
+import 'package:gezamycar/utils/constants.dart';
+
 abstract class Person {
   String _uid;
   String _fistName;
@@ -5,22 +8,39 @@ abstract class Person {
   String _gender;
   String _password;
 
-  Person(String uid, String firstName, String lastName, String gender,
-      String password) {
-    this._uid = uid;
-    this._fistName = firstName;
-    this._lastName = lastName;
-    this._gender = gender;
-    this._password = password;
-  }
+  void firstName(String firstName) => firstName.trim().isEmpty
+      ? throw MyException(kFieldIsRequired)
+      : _fistName = firstName;
 
-  String get uid => _uid;
-  String get fistName => _fistName;
-  String get lastName => _lastName;
-  String get gender => _gender;
-  String get password => _password;
+  void lastName(String lastName) => lastName.trim().isEmpty
+      ? throw MyException(kFieldIsRequired)
+      : _lastName = lastName;
+
+  void password(String password) => password.isEmpty
+      ? throw MyException(kFieldIsRequired)
+      : !_isValidPassword(password)
+          ? throw MyException(kPasswordShort)
+          : _password = password;
+
+  String getUid() => _uid;
+
+  String getFirstName() => _fistName;
+
+  String getLastName() => _lastName;
+
+  String getGender() => _gender;
+
+  String getPassword() => _password;
 
   void login();
+
   void signUp();
+
   void resetPassword();
+
+  bool _isValidPassword(String password) => password.length > 6;
+
+  @override
+  String toString() =>
+      'FirstName: $_fistName, LastName: $_lastName, Gender: $_gender';
 }

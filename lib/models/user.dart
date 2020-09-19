@@ -1,11 +1,11 @@
 import 'package:gezamycar/models/person.dart';
 
 class User extends Person {
-  String role;
+  String _role = 'User';
 
-  User(String uid, String firstName, String lastName, String gender,
-      String password)
-      : super(uid, firstName, lastName, gender, password);
+  set setRole(String role) => _role = role;
+
+  String get getRole => _role;
 
   @override
   void signUp() {
@@ -21,4 +21,7 @@ class User extends Person {
   void resetPassword() {
     // TODO: implement resetPassword
   }
+
+  @override
+  String toString() => 'Role: $_role, ${super.toString()}';
 }

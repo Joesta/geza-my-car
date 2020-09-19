@@ -5,13 +5,9 @@ import 'package:gezamycar/utils/form_validators.dart';
 import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/exceptions/my_exception.dart';
 
 class Contact extends FormValidator {
-  int _id;
+  String _id;
   String _phoneNumber;
   String _emailAddress;
-
-  Contact({String phoneNumber, String email}) {
-    setPhoneNumber(phoneNumber);
-  }
 
   void setPhoneNumber(String _phoneNumber) {
     if (_phoneNumber.trim().isEmpty) {
@@ -43,5 +39,6 @@ class Contact extends FormValidator {
 
   String get id => this.id;
 
+  @override
   String toString() => 'Phone: $_phoneNumber, Email: $_emailAddress';
 }
