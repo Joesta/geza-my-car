@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gezamycar/screens/create_account_screen.dart';
 import 'package:gezamycar/screens/forgot_password_screen.dart';
@@ -8,15 +9,35 @@ import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:gezamycar/widgets/login_text_anim.dart';
 
-class LoginScreen extends StatelessWidget {
+import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/services/auth_services.dart';
+
+class LoginScreen extends StatefulWidget {
   static const String id = '/';
 
-  final _formKey = GlobalKey<FormState>();
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
 
-  void _submit() {
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String _email, _password;
+
+  void _submit() async {
     final form = _formKey.currentState;
+    final _auth = AuthServices();
+
     if (form.validate()) {
-      print('Valid inputs');
+      print(_email);
+      print(_password);
+      try {
+        User user = await _auth.signIn(_email, _password);
+        if (user != null) {
+          print('success');
+          //@Todo (Developer) goto main screen
+        } else {}
+      } catch (e) {
+        print('submit: $e');
+      }
     }
   }
 
@@ -55,7 +76,9 @@ class LoginScreen extends StatelessWidget {
                           child: Column(
                             children: <Widget>[
                               CustomTextFormField(
-                                onChanged: (_) {},
+                                onChanged: (String email) {
+                                  _email = email.trim();
+                                },
                                 labelText: 'Email',
                                 icon: Icons.email,
                                 validator: (String _email) {
@@ -67,7 +90,9 @@ class LoginScreen extends StatelessWidget {
                                 height: 10.0,
                               ),
                               CustomTextFormField(
-                                onChanged: (_) {},
+                                onChanged: (String password) {
+                                  _password = password.trim();
+                                },
                                 labelText: 'Password',
                                 icon: Icons.lock,
                                 isObscure: true,

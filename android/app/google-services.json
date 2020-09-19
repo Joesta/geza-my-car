@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "769684876075-nthul4222bhivi1htdc6jb7qs773lui8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "za.co.rawbusttech.gezamycar",
+            "certificate_hash": "5d3d8c5c4b4ae6a940864bcc81eadd841314acd1"
+          }
+        },
+        {
           "client_id": "769684876075-m85vvrn0cu70apm473sncrbmdd8h4gam.apps.googleusercontent.com",
           "client_type": 3
         }
