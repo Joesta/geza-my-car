@@ -21,3 +21,7 @@ const kTextFormInputDecoration = InputDecoration(
     ),
   ),
 );
+
+const kFieldIsRequired = 'Field is required';
+const kPhoneShort = 'Phone number is too short';
+const kInvalidEmail = 'Invalid email address';

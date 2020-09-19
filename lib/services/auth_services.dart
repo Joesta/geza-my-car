@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gezamycar/my_exception.dart';
+
+import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/exceptions/my_exception.dart';
 
 class AuthServices {
   final _auth = FirebaseAuth.instance;
