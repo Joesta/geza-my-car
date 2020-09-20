@@ -8,6 +8,8 @@ abstract class Person {
   String _gender;
   String _password;
 
+  void id(String uid) => _uid = uid;
+
   void firstName(String firstName) => firstName.trim().isEmpty
       ? throw MyException(kFieldIsRequired)
       : _fistName = firstName;
@@ -36,7 +38,7 @@ abstract class Person {
 
   void login();
 
-  void signUp();
+  Future<int> signUp();
 
   void resetPassword();
 

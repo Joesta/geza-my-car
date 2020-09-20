@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gezamycar/exceptions/my_exception.dart';
 import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/services/auth_services.dart';
 
@@ -17,7 +18,15 @@ class UserManager {
   }
 
   Future<User> signUp(String emailAddress, String password) async {
-    return await _auth.singUp(emailAddress, password);
+    try {
+      return await _auth.singUp(emailAddress, password);
+    } catch (e) {
+      throw MyException(e.toString());
+    }
+  }
+
+  void createUserDetails(Person person) {
+    print('UserManager: ${person.toString()}');
   }
 
   void logOut() {

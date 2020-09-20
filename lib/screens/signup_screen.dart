@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gezamycar/common/myflutter_alert.dart';
 import 'package:gezamycar/exceptions/my_exception.dart';
 import 'package:gezamycar/models/contact.dart';
 import 'package:gezamycar/models/user.dart';
@@ -9,6 +10,7 @@ import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String id = 'SignUpScreen';
@@ -21,17 +23,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final User _user = User();
   final Contact _contact = Contact();
+  final _alert = MyFlutterAlert.instance;
   bool _inAsyncCall = false;
 
   List<String> _genderTypes = ['Male', 'Female'];
   String _selectedGender;
 
-  @override
   initState() {
-    _selectedGender = _genderTypes[0];
+    setState(() {
+      _selectedGender = _genderTypes[0];
+    });
     super.initState();
   }
 
+  //@Todo (developer) move picker into a separate class to minify this class
   DropdownButton<String> androidDropdown(BuildContext context) {
     List<DropdownMenuItem<String>> genderItems = [];
     for (String gender in _genderTypes) {
@@ -76,16 +81,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     final form = _formKey.currentState;
     if (form.validate()) {
       setState(() {
-        //Todo (developer) update value to false when signup service call is done to disable the hud.
         _inAsyncCall = true;
       });
 
-      _user.setContact(_contact);
-      _user.signUp();
+      try {
+        _user.setContact(_contact);
+        int flag = await _user.signUp();
+        if (flag == 1) {
+          setState(() {
+            _inAsyncCall = false;
+          });
+
+          _clear(); // clear form
+          _alert.showAlert(
+              // shows alert
+              context: context,
+              alertType: AlertType.success,
+              description: 'User registered!');
+        }
+      } catch (e) {
+        //@Todo (developer) handle this error correctly
+        print('submit: ${e.toString()}');
+        final error =
+            e.toString().substring(e.toString().lastIndexOf('[')).trim();
+        _alert.showAlert(
+            context: context,
+            alertType: AlertType.error,
+            buttonText: 'Retry',
+            description: error);
+      }
+
+      setState(() {
+        _inAsyncCall = false;
+      });
     }
   }
 
@@ -97,9 +129,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          //@Todo (developer) see if you can move this to a separate class
+          title: Text(
+            'Sign up',
+            style: TextStyle(letterSpacing: 2.0),
+          ),
+          backgroundColor: Colors.teal,
+          elevation: 5.0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: ModalProgressHUD(
           inAsyncCall: _inAsyncCall,
-          progressIndicator: CircularProgressIndicator(),
+          progressIndicator: CircularProgressIndicator(
+            backgroundColor: Colors.tealAccent,
+          ),
           child: Container(
             color: kBackgroundColor,
             child: Center(
@@ -233,8 +282,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           children: <Widget>[
                             Expanded(
                               child: CustomMaterialButton(
-                                onPressed: () {
-                                  _submit();
+                                onPressed: () async {
+                                  await _submit();
                                 },
                                 title: 'Sign up',
                               ),
