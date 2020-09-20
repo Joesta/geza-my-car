@@ -30,6 +30,8 @@ class Contact extends FormValidator {
   }
 
   bool _isValidPhoneLength(String _phoneNumber) {
+    print(_phoneNumber.length);
+    print(_phoneNumber.length == 10);
     return _phoneNumber.length == 10;
   }
 

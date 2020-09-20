@@ -1,15 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/exceptions/my_exception.dart';
+import 'package:gezamycar/exceptions/my_exception.dart';
 
 class AuthServices {
   final _auth = FirebaseAuth.instance;
 
   // signIn user
-  Future<User> signIn(String _email, String _password) async {
+  Future<User> signIn(String emailAddress, String password) async {
     try {
       UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: _email, password: _password);
+          email: emailAddress, password: password);
       return result.user;
     } catch (e) {
       throw MyException(e);
@@ -17,13 +16,13 @@ class AuthServices {
   }
 
   // create user account
-  Future<User> singUp(String _email, String _password) async {
+  Future<User> singUp(String emailAddress, String password) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: _email, password: _password);
+          email: emailAddress, password: password);
       return result.user;
     } catch (e) {
-      throw MyException(e);
+      throw MyException(e.toString());
     }
   }
 
@@ -38,8 +37,8 @@ class AuthServices {
   }
 
   // reset password
-  Future<void> resetPassword(String _email) async {
-    return await _auth.sendPasswordResetEmail(email: _email);
+  Future<void> resetPassword(String emailAddress) async {
+    return await _auth.sendPasswordResetEmail(email: emailAddress);
   }
 
   // logout

@@ -33,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
       autovalidate: autoValidate,
       obscureText: isObscure,
       maxLength: isPhone ? 10 : null,
+      cursorColor: Colors.teal,
       keyboardType: isEmail
           ? TextInputType.emailAddress
           : isPhone ? TextInputType.phone : TextInputType.text,

@@ -22,6 +22,8 @@ abstract class Person {
           ? throw MyException(kPasswordShort)
           : _password = password;
 
+  void gender(String gender) => _gender = gender;
+
   String getUid() => _uid;
 
   String getFirstName() => _fistName;
