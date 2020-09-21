@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import '../screens/login_screen.dart';
 
 class MyFlutterAlert {
   MyFlutterAlert._internal();
@@ -15,7 +16,8 @@ class MyFlutterAlert {
       {BuildContext context,
       AlertType alertType,
       String description,
-      String buttonText}) {
+      String buttonText,
+      Function onPressed}) {
     Alert(
       context: context,
       type: alertType,
@@ -29,7 +31,7 @@ class MyFlutterAlert {
               fontSize: 20.0,
             ),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: onPressed,
           width: 120,
         )
       ],

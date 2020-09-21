@@ -1,8 +1,7 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:gezamycar/exceptions/my_exception.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/utils/form_validators.dart';
-
-import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/exceptions/my_exception.dart';
 
 class Contact extends FormValidator {
   String _id;

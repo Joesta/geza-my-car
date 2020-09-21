@@ -34,4 +34,9 @@ class UserManager {
   }
 
   void registerUser(Person user) {}
+
+  // reset password
+  Future<void> resetPassword(String emailAddress) async {
+    return await _auth.resetPassword(emailAddress);
+  }
 }

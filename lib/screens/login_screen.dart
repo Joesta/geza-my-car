@@ -2,15 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gezamycar/screens/forgot_password_screen.dart';
 import 'package:gezamycar/screens/signup_screen.dart';
+import 'package:gezamycar/services/auth_services.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/utils/form_validators.dart';
 import 'package:gezamycar/widgets/custom_flat_button.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:gezamycar/widgets/login_text_anim.dart';
-
-import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/services/auth_services.dart';
-
 class LoginScreen extends StatefulWidget {
   static const String id = '/';
 
