@@ -1,5 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart' as _firebase;
-import 'package:gezamycar/exceptions/my_exception.dart';
+import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/models/contact.dart';
 import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/models/user_manager.dart';
@@ -18,25 +17,17 @@ class User extends Person {
   Contact getContact() => _contact;
 
   @override
-  Future<int> signUp() async {
-    //Todo (developer) create node with user information when signup has completed.
-
-    try {
-      _firebase.User _user =
-          await _manager.signUp(_contact.emailAddress, super.getPassword());
-      //@Todo remove debugging print
-      print('Firebase user ${_user}');
-      print('Firebase user ${_user.uid}');
-      if (_user != null) {
-        this.id(_user.uid);
-        _manager.createUserDetails(this);
-        return 1;
-      }
-    } catch (e) {
-      throw MyException(e.toString());
+  Future<AuthResultStatus> signUp() async {
+    final status =
+        await _manager.signUp(_contact.emailAddress, super.getPassword());
+    if (status == AuthResultStatus.successful) {
+      print('saving');
+      _manager.saveUser(this);
+      return status;
     }
 
-    return 0;
+    print('error occured');
+    return status;
   }
 
   @override

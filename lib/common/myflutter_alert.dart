@@ -13,6 +13,7 @@ class MyFlutterAlert {
 
   void showAlert(
       {BuildContext context,
+      @required Function onPressed,
       AlertType alertType,
       String description,
       String buttonText}) {
@@ -29,7 +30,7 @@ class MyFlutterAlert {
               fontSize: 20.0,
             ),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: onPressed,
           width: 120,
         )
       ],

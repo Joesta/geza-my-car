@@ -1,3 +1,4 @@
+import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/exceptions/my_exception.dart';
 import 'package:gezamycar/utils/constants.dart';
 
@@ -38,7 +39,7 @@ abstract class Person {
 
   void login();
 
-  Future<int> signUp();
+  Future<AuthResultStatus> signUp();
 
   void resetPassword();
 
@@ -46,5 +47,5 @@ abstract class Person {
 
   @override
   String toString() =>
-      'FirstName: $_fistName, LastName: $_lastName, Gender: $_gender';
+      'Id: $_uid, FirstName: $_fistName, LastName: $_lastName, Gender: $_gender';
 }

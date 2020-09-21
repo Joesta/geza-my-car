@@ -1,11 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gezamycar/exceptions/my_exception.dart';
+import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/services/auth_services.dart';
 
 class UserManager {
   final _auth = AuthServices();
-
   UserManager._internal();
   static final instance = UserManager._internal();
 
@@ -17,17 +16,16 @@ class UserManager {
     return await _auth.signIn(emailAddress, password);
   }
 
-  Future<User> signUp(String emailAddress, String password) async {
-    try {
-      return await _auth.singUp(emailAddress, password);
-    } catch (e) {
-      throw MyException(e.toString());
-    }
+  Future<AuthResultStatus> signUp(String emailAddress, String password) async {
+    return await _auth.singUp(emailAddress, password);
   }
 
-  void createUserDetails(Person person) {
-    print('UserManager: ${person.toString()}');
+  void saveUser(Person person) {
+    person.id(getUID());
+    print(person);
   }
+
+  String getUID() => _auth.getUID();
 
   void logOut() {
     _auth.signOut().then((value) => null);
