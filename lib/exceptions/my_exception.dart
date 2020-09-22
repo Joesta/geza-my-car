@@ -1,5 +1,5 @@
 class MyException {
-  final String message;
+  final dynamic message;
 
   MyException([this.message]);
 

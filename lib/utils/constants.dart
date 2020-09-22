@@ -22,6 +22,10 @@ const kTextFormInputDecoration = InputDecoration(
   ),
 );
 
+const kFormFieldHeightGap = 15.0;
+const kDbUserCollection = 'User';
 const kFieldIsRequired = 'Field is required';
 const kPhoneShort = 'Phone number is too short';
 const kInvalidEmail = 'Invalid email address';
+const kPasswordShort = 'Password too short!';
+const kPassMismatch = 'Password do not match';

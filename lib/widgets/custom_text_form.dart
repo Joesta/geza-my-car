@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gezamycar/utils/constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final bool autoValidate;
   final bool isObscure;
+  final bool isText;
+  final bool isEmail;
+  final bool isPhone;
   final Function onChanged;
   final String labelText;
   final IconData icon;
@@ -14,6 +18,9 @@ class CustomTextFormField extends StatelessWidget {
     this.labelText,
     this.autoValidate = false,
     this.isObscure = false,
+    this.isText = true,
+    this.isEmail = false,
+    this.isPhone = false,
     this.icon,
     this.validator,
   });
@@ -25,6 +32,11 @@ class CustomTextFormField extends StatelessWidget {
       onChanged: onChanged,
       autovalidate: autoValidate,
       obscureText: isObscure,
+      maxLength: isPhone ? 10 : null,
+      cursorColor: Colors.teal,
+      keyboardType: isEmail
+          ? TextInputType.emailAddress
+          : isPhone ? TextInputType.phone : TextInputType.text,
       style: kTextStyle,
       decoration: kTextFormInputDecoration.copyWith(
         labelText: labelText,

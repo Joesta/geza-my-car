@@ -1,26 +1,40 @@
+import 'package:gezamycar/enums/auth-result-status.dart';
+import 'package:gezamycar/exceptions/my_exception.dart';
+import 'package:gezamycar/utils/constants.dart';
+
 abstract class Person {
   String _uid;
   String _fistName;
   String _lastName;
   String _gender;
-  String _password;
 
-  Person(String uid, String firstName, String lastName, String gender,
-      String password) {
-    this._uid = uid;
-    this._fistName = firstName;
-    this._lastName = lastName;
-    this._gender = gender;
-    this._password = password;
-  }
+  void id(String uid) => _uid = uid;
 
-  String get uid => _uid;
-  String get fistName => _fistName;
-  String get lastName => _lastName;
-  String get gender => _gender;
-  String get password => _password;
+  void firstName(String firstName) => firstName.trim().isEmpty
+      ? throw MyException(kFieldIsRequired)
+      : _fistName = firstName;
+
+  void lastName(String lastName) => lastName.trim().isEmpty
+      ? throw MyException(kFieldIsRequired)
+      : _lastName = lastName;
+
+  void gender(String gender) => _gender = gender;
+
+  String getUid() => _uid;
+
+  String getFirstName() => _fistName;
+
+  String getLastName() => _lastName;
+
+  String getGender() => _gender;
 
   void login();
-  void signUp();
+
+  Future<AuthResultStatus> signUp();
+
   void resetPassword();
+
+  @override
+  String toString() =>
+      'Id: $_uid, FirstName: $_fistName, LastName: $_lastName, Gender: $_gender';
 }
