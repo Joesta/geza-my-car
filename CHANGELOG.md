@@ -20,4 +20,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added registration screen
 - Handled exceptions accordingly
 - Added firebase realtime database
+- Added registration UI and completed functionality
 
