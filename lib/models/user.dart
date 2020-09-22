@@ -1,11 +1,11 @@
 import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/exceptions/my_exception.dart';
-import 'package:gezamycar/mixins/credential_validation_mixin.dart';
+import 'package:gezamycar/mixins/credential_validator_mixin.dart';
 import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/models/user_manager.dart';
 import 'package:gezamycar/utils/constants.dart';
 
-class User extends Person with CredentialValidationMixin {
+class User extends Person with CredentialValidatorMixin {
   String _role = 'User';
   String _emailAddress;
   String _password;

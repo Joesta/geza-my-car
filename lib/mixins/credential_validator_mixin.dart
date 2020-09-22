@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:gezamycar/utils/constants.dart';
 
-mixin CredentialValidationMixin {
+mixin CredentialValidatorMixin {
   // validate password
   String validatePassword(String password) => password.isEmpty
       ? kFieldIsRequired
