@@ -7,8 +7,8 @@ import 'package:gezamycar/services/auth_services.dart';
 
 class UserManager {
   UserManager._internal();
-
   static final instance = UserManager._internal();
+
   final _auth = AuthServices();
   final _dataSource = DataSource();
 
@@ -24,9 +24,9 @@ class UserManager {
     return await _auth.singUp(emailAddress, password);
   }
 
-  void saveUser(User user) async {
+  Future<void> saveUser(User user) async {
     print('UserManager: saving user...');
-    await _dataSource.saveUser(user);
+    return await _dataSource.saveUser(user);
   }
 
   String getUID() => _auth.getUID();

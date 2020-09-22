@@ -1,5 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:gezamycar/models/user.dart';
+import 'package:gezamycar/services/auth_services.dart';
+import 'package:gezamycar/utils/constants.dart';
 
 class DataSource {
   final _db = FirebaseDatabase.instance;
@@ -10,7 +12,13 @@ class DataSource {
   }
 
   Future<void> saveUser(User user) async {
-    await _ref.child('users').push().set(user.toJson());
-    print('DataSource: user ${user.toJson()} is saved');
+    return await _ref.child(kDbUserCollection).push().set(user.toJson());
+  }
+
+  void readUser() {
+    final _auth = AuthServices();
+    _ref.child(kDbUserCollection).child(_auth.getUID()).onValue.listen((event) {
+      //@Todo (developer) do something about this user info
+    });
   }
 }

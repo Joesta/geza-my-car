@@ -59,7 +59,7 @@ class User extends Person with CredentialValidationMixin {
     if (status == AuthResultStatus.successful) {
       print('saving');
       try {
-        manager.saveUser(this);
+        await manager.saveUser(this);
       } catch (e) {
         //@Todo (developer) assign code to status
         print('SingUp: ${e.toString()}');

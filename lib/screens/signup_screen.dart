@@ -35,6 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   initState() {
     setState(() {
       _selectedGender = _genderTypes[0];
+      _user.gender(_selectedGender);
     });
     super.initState();
   }
