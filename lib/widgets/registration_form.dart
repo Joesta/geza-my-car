@@ -3,16 +3,13 @@ import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gezamycar/exceptions/my_exception.dart';
-import 'package:gezamycar/models/contact.dart';
-import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/models/user.dart';
 import 'package:gezamycar/utils/constants.dart';
 
 import 'custom_text_form.dart';
 
 class RegistrationForm extends StatelessWidget {
-  final Person _user = User();
-  final Contact _contact = Contact();
+  final User _user = User();
   final List<String> _genderTypes = [
     'Male',
     'Female',
@@ -98,7 +95,7 @@ class RegistrationForm extends StatelessWidget {
           onChanged: null,
           validator: (String emailAddress) {
             try {
-              _contact.setEmailAddress(emailAddress);
+              _user.emailAddress(emailAddress);
               return null;
             } catch (e) {
               return e.toString();
@@ -114,7 +111,7 @@ class RegistrationForm extends StatelessWidget {
           onChanged: null,
           validator: (String phoneNumber) {
             try {
-              _contact.setPhoneNumber(phoneNumber);
+              _user.phoneNumber(phoneNumber);
               return null;
             } catch (e) {
               return e.toString();

@@ -1,13 +1,23 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:gezamycar/screens/login_screen.dart';
+import 'package:gezamycar/utils/firebaseapp_initializer.dart';
 
 import 'routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  print('loading configs...');
+  final configs = await FlutterConfig.loadEnvVariables();
+  if (configs != null) {
+    print('configs loaded...');
+    print('initializing app...');
+    await FirebaseAppInitializer.initApp();
+    print('initialized...');
+  }
+
+  print('running applications...');
   runApp(GezaMyApp());
 }
 

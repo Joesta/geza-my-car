@@ -6,7 +6,6 @@ import 'package:gezamycar/common/myflutter_alert.dart';
 import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/exceptions/auth-exception-handler.dart';
 import 'package:gezamycar/exceptions/my_exception.dart';
-import 'package:gezamycar/models/contact.dart';
 import 'package:gezamycar/models/user.dart';
 import 'package:gezamycar/screens/login_screen.dart';
 import 'package:gezamycar/utils/constants.dart';
@@ -25,7 +24,6 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final User _user = User();
-  final Contact _contact = Contact();
   final _alert = MyFlutterAlert.instance;
   AuthResultStatus _status;
 
@@ -93,7 +91,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _inAsyncCall = true;
       });
 
-      _user.setContact(_contact);
       _status = await _user.signUp();
       if (_status == AuthResultStatus.successful) {
         setState(() {
@@ -218,7 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onChanged: null,
                                   validator: (String emailAddress) {
                                     try {
-                                      _contact.setEmailAddress(emailAddress);
+                                      _user.emailAddress(emailAddress);
                                       return null;
                                     } catch (e) {
                                       return e.toString();
@@ -234,7 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onChanged: null,
                                   validator: (String phoneNumber) {
                                     try {
-                                      _contact.setPhoneNumber(phoneNumber);
+                                      _user.phoneNumber(phoneNumber);
                                       return null;
                                     } catch (e) {
                                       return e.toString();

@@ -1,28 +1,69 @@
 import 'package:gezamycar/enums/auth-result-status.dart';
-import 'package:gezamycar/models/contact.dart';
+import 'package:gezamycar/exceptions/my_exception.dart';
+import 'package:gezamycar/mixins/credential_validation_mixin.dart';
 import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/models/user_manager.dart';
+import 'package:gezamycar/utils/constants.dart';
 
-class User extends Person {
+class User extends Person with CredentialValidationMixin {
   String _role = 'User';
-  Contact _contact;
-  UserManager _manager = UserManager.instance;
+  String _emailAddress;
+  String _password;
+  String _phoneNumber;
 
-  void setRole(String role) => _role = role;
+  // set user role
+  void role(String role) => _role = role;
 
-  void setContact(Contact contact) => _contact = contact;
+  // validate email address
+  void emailAddress(String emailAddress) {
+    final result = validateEmail(emailAddress);
+    result == null ? _emailAddress = emailAddress : throw MyException(result);
+  }
 
+  // validate password
+  void password(String password) {
+    final result = validatePassword(password);
+    result == null ? _password = password : throw MyException(result);
+  }
+
+  void phoneNumber(String phoneNumber) => phoneNumber.trim().isEmpty
+      ? throw MyException(kFieldIsRequired)
+      : !_isValidPhoneLength(phoneNumber)
+          ? MyException(kPhoneShort)
+          : _phoneNumber = phoneNumber;
+
+  // get user role
   String getRole() => _role;
 
-  Contact getContact() => _contact;
+  // get user password
+  String getPassword() => _password;
+
+  bool _isValidPhoneLength(String _phoneNumber) => _phoneNumber.length == 10;
+
+  Map<String, Object> toJson() {
+    return {
+      'firstName': this.getFirstName(),
+      'lastName': this.getLastName(),
+      'gender': this.getGender(),
+      'emailAddres': _emailAddress,
+      'phoneNumber': _phoneNumber,
+      'role': _role
+    };
+  }
 
   @override
   Future<AuthResultStatus> signUp() async {
-    final status =
-        await _manager.signUp(_contact.emailAddress, super.getPassword());
+    final manager = UserManager.instance;
+    final status = await manager.signUp(_emailAddress, _password);
+
     if (status == AuthResultStatus.successful) {
       print('saving');
-      _manager.saveUser(this);
+      try {
+        manager.saveUser(this);
+      } catch (e) {
+        //@Todo (developer) assign code to status
+        print('SingUp: ${e.toString()}');
+      }
       return status;
     }
 
@@ -33,7 +74,8 @@ class User extends Person {
   @override
   void login() {
     //Todo (developer) not done. check me later
-    _manager.login(_contact.emailAddress, super.getPassword());
+    final manager = UserManager.instance;
+    manager.login(_emailAddress, _password);
   }
 
   @override
@@ -42,5 +84,6 @@ class User extends Person {
   }
 
   @override
-  String toString() => 'Role: $_role, ${super.toString()}';
+  String toString() =>
+      '${super.toString()}, Role $_role, PhoneNumber: $_phoneNumber, Email Address: $_emailAddress';
 }

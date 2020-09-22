@@ -7,7 +7,6 @@ abstract class Person {
   String _fistName;
   String _lastName;
   String _gender;
-  String _password;
 
   void id(String uid) => _uid = uid;
 
@@ -19,12 +18,6 @@ abstract class Person {
       ? throw MyException(kFieldIsRequired)
       : _lastName = lastName;
 
-  void password(String password) => password.isEmpty
-      ? throw MyException(kFieldIsRequired)
-      : !_isValidPassword(password)
-          ? throw MyException(kPasswordShort)
-          : _password = password;
-
   void gender(String gender) => _gender = gender;
 
   String getUid() => _uid;
@@ -35,15 +28,11 @@ abstract class Person {
 
   String getGender() => _gender;
 
-  String getPassword() => _password;
-
   void login();
 
   Future<AuthResultStatus> signUp();
 
   void resetPassword();
-
-  bool _isValidPassword(String password) => password.length > 6;
 
   @override
   String toString() =>
