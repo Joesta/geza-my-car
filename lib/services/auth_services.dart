@@ -49,10 +49,7 @@ class AuthServices {
       var results = await _auth.sendPasswordResetEmail(email: emailAddress);
       _status = AuthResultStatus.successful;
     } catch(e) {
-      print("*********************>>>>>>>>>>>>>>>>");
-      if (e.toString() == "[firebase_auth/user-not-found] There is no user record corresponding to this identifier. The user may have been deleted."){
-        _status = AuthResultStatus.invalidEmail;
-      }
+      _status = AuthExceptionHandler.handleException(e);
     }
     return _status;
   }

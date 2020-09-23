@@ -47,7 +47,7 @@ class HomeScreen extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: EdgeInsets.symmetric(),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white10,
@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20.0),
+                              padding: EdgeInsets.symmetric(),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                                       image: AssetImage("images/eng1.png"),
                                       color: Colors.white,
                                     ),
-                                    iconSize: 80.0,
+                                    iconSize: 100.0,
                                     onPressed: () {
                                       print("Engine Wash Pressed...");
                                     },
@@ -85,9 +85,12 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: EdgeInsets.symmetric(),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white10,
@@ -97,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20.0),
+                              padding: EdgeInsets.symmetric(),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
@@ -106,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                                           AssetImage("images/FullBodyWash.png"),
                                       color: Colors.white,
                                     ),
-                                    iconSize: 80.0,
+                                    iconSize: 100.0,
                                     onPressed: () {
                                       print("Full Body Wash Pressed...");
                                     },
@@ -139,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                     children: <Widget>[
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: EdgeInsets.symmetric(),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white10,
@@ -149,7 +152,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20.0),
+                              padding: EdgeInsets.symmetric(),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
@@ -157,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                                       image: AssetImage("images/CarPolish.png"),
                                       color: Colors.white,
                                     ),
-                                    iconSize: 80.0,
+                                    iconSize: 100.0,
                                     onPressed: () {
                                       print("Full Body Polishing Pressed...");
                                     },
@@ -180,9 +183,12 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: EdgeInsets.symmetric(),
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white10,
@@ -192,7 +198,7 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20.0),
+                              padding: EdgeInsets.symmetric(),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
@@ -201,7 +207,7 @@ class HomeScreen extends StatelessWidget {
                                           AssetImage("images/car-vacuum.png"),
                                       color: Colors.white,
                                     ),
-                                    iconSize: 80.0,
+                                    iconSize: 100.0,
                                     onPressed: () {
                                       print("Interior Wash Pressed...'");
                                     },

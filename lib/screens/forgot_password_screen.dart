@@ -1,18 +1,16 @@
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gezamycar/common/myflutter_alert.dart';
 import 'package:gezamycar/enums/auth-result-status.dart';
+import 'package:gezamycar/exceptions/auth-exception-handler.dart';
 import 'package:gezamycar/models/user_manager.dart';
 import 'package:gezamycar/utils/constants.dart';
+import 'package:gezamycar/utils/form_validators.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
-import '../widgets/custom_text_form.dart';
-import '../widgets/login_text_anim.dart';
-import 'package:gezamycar/utils/form_validators.dart';
-import 'package:gezamycar/common/myflutter_alert.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../widgets/custom_text_form.dart';
 import 'login_screen.dart';
-import 'package:gezamycar/exceptions/my_exception.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const String id = 'ForgotPasswordScreen';
@@ -33,13 +31,8 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
 
     if (form.validate()) {
       print(_email);
-      try {
-        _emailStatus = await _manager.resetPassword(_email);
-      }catch (e) {
-        print('---------------------------');
-        // print(e.toString());
-        // throw MyException(e.toString());
-      }
+      _emailStatus = await _manager.resetPassword(_email);
+
       if (_emailStatus == AuthResultStatus.successful) {
         //show alert
         resetAlert.showAlert(
@@ -48,14 +41,15 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
             context: context,
             alertType: AlertType.success,
             description: 'Reset link sent!');
-      }else {
+      } else {
         //show alert
         resetAlert.showAlert(
             buttonText: 'OK',
-            onPressed: () => Navigator.popAndPushNamed(context, ForgotPasswordScreen.id),
+            onPressed: () =>
+                Navigator.popAndPushNamed(context, ForgotPasswordScreen.id),
             context: context,
             alertType: AlertType.error,
-            description: 'Invalid email address!');
+            description: AuthExceptionHandler.generateExceptionMessage(_emailStatus));
       }
     }
   }
