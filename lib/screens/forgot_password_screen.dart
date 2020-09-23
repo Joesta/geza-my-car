@@ -11,6 +11,7 @@ import 'package:gezamycar/utils/form_validators.dart';
 import 'package:gezamycar/common/myflutter_alert.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'login_screen.dart';
+import 'package:gezamycar/exceptions/my_exception.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   static const String id = 'ForgotPasswordScreen';
@@ -30,15 +31,21 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
 
     if (form.validate()) {
       print(_email);
-      _manager.resetPassword(_email);
+      try {
+        _manager.resetPassword(_email);
+      }catch (e) {
+        print('---------------------------');
+        // print(e.toString());
+        // throw MyException(e.toString());
+      }
       //show alert
       resetAlert.showAlert(
-        // shows alert
-        buttonText: 'OK',
+          buttonText: 'OK',
           onPressed: () => Navigator.popAndPushNamed(context, LoginScreen.id),
           context: context,
           alertType: AlertType.success,
           description: 'Reset link sent!');
+
     }
   }
 

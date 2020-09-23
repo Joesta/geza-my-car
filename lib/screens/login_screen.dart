@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gezamycar/screens/forgot_password_screen.dart';
+import 'package:gezamycar/screens/home_screen.dart';
 import 'package:gezamycar/screens/signup_screen.dart';
 import 'package:gezamycar/services/auth_services.dart';
 import 'package:gezamycar/utils/constants.dart';
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (user != null) {
           print('success');
           //@Todo (Developer) goto main screen
+          Navigator.pushNamed(context, HomeScreen.id);
         } else {}
       } catch (e) {
         print('submit: $e');
