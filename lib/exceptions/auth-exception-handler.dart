@@ -11,7 +11,7 @@ class AuthExceptionHandler {
       case "ERROR_WRONG_PASSWORD":
         status = AuthResultStatus.wrongPassword;
         break;
-      case "ERROR_USER_NOT_FOUND":
+      case "user-not-found":
         status = AuthResultStatus.userNotFound;
         break;
       case "ERROR_USER_DISABLED":
