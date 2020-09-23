@@ -3,9 +3,11 @@ import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gezamycar/common/myflutter_alert.dart';
+import 'package:gezamycar/enums/auth-result-status.dart';
+import 'package:gezamycar/exceptions/auth-exception-handler.dart';
 import 'package:gezamycar/exceptions/my_exception.dart';
-import 'package:gezamycar/models/contact.dart';
 import 'package:gezamycar/models/user.dart';
+import 'package:gezamycar/screens/login_screen.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
@@ -22,8 +24,9 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final User _user = User();
-  final Contact _contact = Contact();
   final _alert = MyFlutterAlert.instance;
+  AuthResultStatus _status;
+
   bool _inAsyncCall = false;
 
   List<String> _genderTypes = ['Male', 'Female'];
@@ -32,6 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   initState() {
     setState(() {
       _selectedGender = _genderTypes[0];
+      _user.gender(_selectedGender);
     });
     super.initState();
   }
@@ -88,36 +92,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _inAsyncCall = true;
       });
 
-      try {
-        _user.setContact(_contact);
-        int flag = await _user.signUp();
-        if (flag == 1) {
-          setState(() {
-            _inAsyncCall = false;
-          });
-
-          _clear(); // clear form
-          _alert.showAlert(
-              // shows alert
-              context: context,
-              alertType: AlertType.success,
-              description: 'User registered!');
-        }
-      } catch (e) {
-        //@Todo (developer) handle this error correctly
-        print('submit: ${e.toString()}');
-        final error =
-            e.toString().substring(e.toString().lastIndexOf('[')).trim();
+      _status = await _user.signUp();
+      if (_status == AuthResultStatus.successful) {
+        setState(() {
+          _inAsyncCall = !_inAsyncCall;
+        });
+        _clear(); // clear form
+        _alert.showAlert(
+            // shows alert
+            context: context,
+            onPressed: () => Navigator.popAndPushNamed(context, LoginScreen.id),
+            alertType: AlertType.success,
+            buttonText: 'Okay',
+            description: 'User registered!');
+      } else {
+        final error = AuthExceptionHandler.generateExceptionMessage(_status);
+        print(error);
+        setState(() {
+          _inAsyncCall = !_inAsyncCall;
+        });
         _alert.showAlert(
             context: context,
+            onPressed: () => Navigator.pop(context),
             alertType: AlertType.error,
             buttonText: 'Retry',
             description: error);
       }
-
-      setState(() {
-        _inAsyncCall = false;
-      });
     }
   }
 
@@ -180,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     }
                                   },
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: kFormFieldHeightGap),
                                 CustomTextFormField(
                                   icon: Icons.person,
                                   labelText: 'Last Name',
@@ -194,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     }
                                   },
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: kFormFieldHeightGap),
                                 Container(
                                   padding: EdgeInsets.only(left: 10.0),
                                   decoration: BoxDecoration(
@@ -207,7 +207,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ? iosPicker()
                                       : androidDropdown(context),
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: kFormFieldHeightGap),
                                 CustomTextFormField(
                                   isEmail: true,
                                   isText: false,
@@ -216,14 +216,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onChanged: null,
                                   validator: (String emailAddress) {
                                     try {
-                                      _contact.setEmailAddress(emailAddress);
+                                      _user.emailAddress(emailAddress);
                                       return null;
                                     } catch (e) {
                                       return e.toString();
                                     }
                                   },
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: kFormFieldHeightGap),
                                 CustomTextFormField(
                                   isPhone: true,
                                   isText: false,
@@ -232,14 +232,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onChanged: null,
                                   validator: (String phoneNumber) {
                                     try {
-                                      _contact.setPhoneNumber(phoneNumber);
+                                      _user.phoneNumber(phoneNumber);
                                       return null;
                                     } catch (e) {
                                       return e.toString();
                                     }
                                   },
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: kFormFieldHeightGap),
                                 CustomTextFormField(
                                   isObscure: true,
                                   icon: Icons.lock,
@@ -254,7 +254,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     }
                                   },
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: kFormFieldHeightGap),
                                 CustomTextFormField(
                                   isObscure: true,
                                   icon: Icons.lock,
@@ -273,7 +273,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     }
                                   },
                                 ),
-                                SizedBox(height: 10.0),
+                                SizedBox(height: kFormFieldHeightGap),
                               ],
                             ),
                           ),

@@ -14,7 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Designed Login UI
 - Added Firebase sdk
-- added models
-- implemented form's input validations
-- added different screens
+- Added models
+- Implemented form's input validations
+- Added different screens
+- Added registration screen
+- Handled exceptions accordingly
+- Added firebase realtime database
+- Added registration UI and completed functionality
 

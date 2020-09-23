@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import '../screens/login_screen.dart';
 
 class MyFlutterAlert {
   MyFlutterAlert._internal();
@@ -14,10 +13,10 @@ class MyFlutterAlert {
 
   void showAlert(
       {BuildContext context,
+      @required Function onPressed,
       AlertType alertType,
       String description,
-      String buttonText,
-      Function onPressed}) {
+      String buttonText}) {
     Alert(
       context: context,
       type: alertType,

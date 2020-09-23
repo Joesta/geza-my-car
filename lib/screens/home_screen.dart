@@ -1,16 +1,6 @@
-import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 import 'package:flutter/cupertino.dart';
-import 'package:gezamycar/common/myflutter_alert.dart';
-import 'package:gezamycar/exceptions/my_exception.dart';
-import 'package:gezamycar/models/contact.dart';
-import 'package:gezamycar/models/user.dart';
+import 'package:flutter/material.dart';
 import 'package:gezamycar/utils/constants.dart';
-import 'package:gezamycar/widgets/custom_material_button.dart';
-import 'package:gezamycar/widgets/custom_text_form.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-// import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:expand_widget/expand_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'HomeScreen';
@@ -67,24 +57,24 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0),
+                              padding: EdgeInsets.symmetric(vertical: 20.0),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
-                                    icon:Image(
-                                        image:AssetImage("images/eng1.png"),
+                                    icon: Image(
+                                      image: AssetImage("images/eng1.png"),
                                       color: Colors.white,
                                     ),
                                     iconSize: 80.0,
-                                    onPressed: (){
+                                    onPressed: () {
                                       print("Engine Wash Pressed...");
-                                      },
+                                    },
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text('Engine Wash',
+                                      Text(
+                                        'Engine Wash',
                                         style: TextStyle(color: Colors.white38),
                                       ),
                                     ],
@@ -95,7 +85,6 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -108,17 +97,17 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0),
+                              padding: EdgeInsets.symmetric(vertical: 20.0),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
-                                    icon:Image(
-                                      image:AssetImage("images/FullBodyWash.png"),
+                                    icon: Image(
+                                      image:
+                                          AssetImage("images/FullBodyWash.png"),
                                       color: Colors.white,
                                     ),
                                     iconSize: 80.0,
-                                    onPressed: (){
+                                    onPressed: () {
                                       print("Full Body Wash Pressed...");
                                     },
                                   ),
@@ -126,9 +115,12 @@ class HomeScreen extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Container(
-                                          child: Text('Full Body Wash',
-                                            style: TextStyle(color: Colors.white38,),
+                                        child: Text(
+                                          'Full Body Wash',
+                                          style: TextStyle(
+                                            color: Colors.white38,
                                           ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -157,17 +149,16 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0),
+                              padding: EdgeInsets.symmetric(vertical: 20.0),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
-                                    icon:Image(
-                                      image:AssetImage("images/CarPolish.png"),
+                                    icon: Image(
+                                      image: AssetImage("images/CarPolish.png"),
                                       color: Colors.white,
                                     ),
                                     iconSize: 80.0,
-                                    onPressed: (){
+                                    onPressed: () {
                                       print("Full Body Polishing Pressed...");
                                     },
                                   ),
@@ -176,12 +167,11 @@ class HomeScreen extends StatelessWidget {
                                     children: <Widget>[
                                       Container(
                                           child: Text(
-                                            'Full Body Polishing',
-                                            style: TextStyle(
-                                              color: Colors.white38,
-                                            ),
-                                          )
-                                      )
+                                        'Full Body Polishing',
+                                        style: TextStyle(
+                                          color: Colors.white38,
+                                        ),
+                                      ))
                                     ],
                                   ),
                                 ],
@@ -190,7 +180,6 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -203,17 +192,17 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ),
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0),
+                              padding: EdgeInsets.symmetric(vertical: 20.0),
                               child: Column(
                                 children: <Widget>[
                                   IconButton(
-                                    icon:Image(
-                                      image:AssetImage("images/car-vacuum.png"),
+                                    icon: Image(
+                                      image:
+                                          AssetImage("images/car-vacuum.png"),
                                       color: Colors.white,
                                     ),
                                     iconSize: 80.0,
-                                    onPressed: (){
+                                    onPressed: () {
                                       print("Interior Wash Pressed...'");
                                     },
                                   ),

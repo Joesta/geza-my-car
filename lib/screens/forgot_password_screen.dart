@@ -1,6 +1,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/models/user_manager.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
@@ -24,6 +25,7 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
   final _formKey0 = GlobalKey<FormState>();
   final resetAlert = MyFlutterAlert.instance;
   String _email;
+  AuthResultStatus _emailStatus;
 
   void _submitRestForm() async {
     final form = _formKey0.currentState;
@@ -32,20 +34,29 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
     if (form.validate()) {
       print(_email);
       try {
-        _manager.resetPassword(_email);
+        _emailStatus = await _manager.resetPassword(_email);
       }catch (e) {
         print('---------------------------');
         // print(e.toString());
         // throw MyException(e.toString());
       }
-      //show alert
-      resetAlert.showAlert(
-          buttonText: 'OK',
-          onPressed: () => Navigator.popAndPushNamed(context, LoginScreen.id),
-          context: context,
-          alertType: AlertType.success,
-          description: 'Reset link sent!');
-
+      if (_emailStatus == AuthResultStatus.successful) {
+        //show alert
+        resetAlert.showAlert(
+            buttonText: 'OK',
+            onPressed: () => Navigator.popAndPushNamed(context, LoginScreen.id),
+            context: context,
+            alertType: AlertType.success,
+            description: 'Reset link sent!');
+      }else {
+        //show alert
+        resetAlert.showAlert(
+            buttonText: 'OK',
+            onPressed: () => Navigator.popAndPushNamed(context, ForgotPasswordScreen.id),
+            context: context,
+            alertType: AlertType.error,
+            description: 'Invalid email address!');
+      }
     }
   }
 

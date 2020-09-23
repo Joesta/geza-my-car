@@ -1,33 +1,35 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gezamycar/exceptions/my_exception.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:gezamycar/database/data_source.dart';
+import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/models/person.dart';
+import 'package:gezamycar/models/user.dart';
 import 'package:gezamycar/services/auth_services.dart';
 
 class UserManager {
-  final _auth = AuthServices();
-
   UserManager._internal();
   static final instance = UserManager._internal();
+
+  final _auth = AuthServices();
+  final _dataSource = DataSource();
 
   factory UserManager() {
     return instance;
   }
 
-  Future<User> login(String emailAddress, String password) async {
+  Future<firebase.User> login(String emailAddress, String password) async {
     return await _auth.signIn(emailAddress, password);
   }
 
-  Future<User> signUp(String emailAddress, String password) async {
-    try {
-      return await _auth.singUp(emailAddress, password);
-    } catch (e) {
-      throw MyException(e.toString());
-    }
+  Future<AuthResultStatus> signUp(String emailAddress, String password) async {
+    return await _auth.singUp(emailAddress, password);
   }
 
-  void createUserDetails(Person person) {
-    print('UserManager: ${person.toString()}');
+  Future<void> saveUser(User user) async {
+    print('UserManager: saving user...');
+    return await _dataSource.saveUser(user);
   }
+
+  String getUID() => _auth.getUID();
 
   void logOut() {
     _auth.signOut().then((value) => null);
@@ -36,7 +38,7 @@ class UserManager {
   void registerUser(Person user) {}
 
   // reset password
-  Future<void> resetPassword(String emailAddress) async {
+  Future<AuthResultStatus> resetPassword(String emailAddress) async {
     return await _auth.resetPassword(emailAddress);
   }
 }
