@@ -107,7 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             description: 'User registered!');
       } else {
         final error = AuthExceptionHandler.generateExceptionMessage(_status);
-        print(error);
+        print('Submit reg data: error is = $error');
         setState(() {
           _inAsyncCall = !_inAsyncCall;
         });

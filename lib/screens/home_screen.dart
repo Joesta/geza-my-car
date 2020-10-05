@@ -18,12 +18,6 @@ class HomeScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.teal,
           elevation: 5.0,
-          leading: IconButton(
-            icon: Icon(Icons.home),
-            onPressed: () {
-              Navigator.pushNamed(context, HomeScreen.id);
-            },
-          ),
         ),
         body: ModalProgressHUD(
           inAsyncCall: _inAsyncCall,
@@ -78,11 +72,13 @@ class HomeScreen extends StatelessWidget {
                                       },
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Text(
                                           'Engine Wash',
-                                          style: TextStyle(color: Colors.white38),
+                                          style:
+                                              TextStyle(color: Colors.white38),
                                         ),
                                       ],
                                     ),
@@ -112,8 +108,8 @@ class HomeScreen extends StatelessWidget {
                                   children: <Widget>[
                                     IconButton(
                                       icon: Image(
-                                        image:
-                                            AssetImage("images/FullBodyWash.png"),
+                                        image: AssetImage(
+                                            "images/FullBodyWash.png"),
                                         color: Colors.white,
                                       ),
                                       iconSize: 100.0,
@@ -122,7 +118,8 @@ class HomeScreen extends StatelessWidget {
                                       },
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Container(
                                           child: Text(
@@ -164,7 +161,8 @@ class HomeScreen extends StatelessWidget {
                                   children: <Widget>[
                                     IconButton(
                                       icon: Image(
-                                        image: AssetImage("images/CarPolish.png"),
+                                        image:
+                                            AssetImage("images/CarPolish.png"),
                                         color: Colors.white,
                                       ),
                                       iconSize: 100.0,
@@ -173,7 +171,8 @@ class HomeScreen extends StatelessWidget {
                                       },
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Container(
                                             child: Text(
@@ -220,7 +219,8 @@ class HomeScreen extends StatelessWidget {
                                       },
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         Container(
                                           child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const kTextStyle = TextStyle(color: Colors.white);
 const kButtonTextStyle = TextStyle(
+  letterSpacing: 2.0,
   color: Colors.white,
   fontWeight: FontWeight.w700,
   fontSize: 20.0,
@@ -29,3 +30,15 @@ const kPhoneShort = 'Phone number is too short';
 const kInvalidEmail = 'Invalid email address';
 const kPasswordShort = 'Password too short!';
 const kPassMismatch = 'Password do not match';
+
+const kFirstName = 'firstName';
+const kLastName = 'lastName';
+const kGender = 'gender';
+const kEmailAddress = 'emailAddres';
+const kPhoneNumber = 'phoneNumber';
+const kRole = 'role';
+const kCreationTime = 'creationTime';
+const kLstSignInTime = 'lastSignInTime';
+
+const kAuthType = 'authType';
+const kUID = 'uid';

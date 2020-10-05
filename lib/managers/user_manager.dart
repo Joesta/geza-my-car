@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:gezamycar/database/data_source.dart';
 import 'package:gezamycar/enums/auth-result-status.dart';
-import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/models/user.dart';
 import 'package:gezamycar/services/auth_services.dart';
 
@@ -29,8 +28,8 @@ class UserManager {
   }
 
   // saves user info database
-  Future<void> saveUser(User user) async {
-    return await _dataSource.saveUser(user);
+  Future<void> saveOrUpdate(User user) async {
+    return await _dataSource.saveOrUpdateUser(user);
   }
 
   void readData() => _dataSource.readUser();
@@ -43,7 +42,13 @@ class UserManager {
     await _auth.signOut();
   }
 
-  void registerUser(Person user) {}
+  Future<AuthResultStatus> registerUser(User user) async {
+    final _status = await signUp(user.getEmailAddress(), user.getPassword());
+    if (_status == AuthResultStatus.successful) {
+      await saveOrUpdate(user);
+      return _status;
+    } else {}
+  }
 
   // reset password
   Future<AuthResultStatus> resetPassword(String emailAddress) async {
@@ -52,4 +57,8 @@ class UserManager {
 
   // user metadata
   firebase.UserMetadata get metadata => _auth.metadata;
+
+  updateLastSignInTime() {
+    _dataSource.updateLastSignInTime(metadata.lastSignInTime.toIso8601String());
+  }
 }

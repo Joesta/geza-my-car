@@ -2,6 +2,7 @@ import 'package:gezamycar/enums/auth-result-status.dart';
 
 class AuthExceptionHandler {
   static handleException(e) {
+    print('Error thrown is $e');
     print(e.code);
     var status;
     switch (e.code) {

@@ -23,6 +23,11 @@ dependencies:
   rflutter_alert: ^1.1.0
   firebase_database: ^4.0.0
   expand_widget: ^1.0.0+2
+  curved_navigation_bar: ^0.3.4
+  flash: ^1.3.1
+  google_maps_flutter: ^0.5.33
+  geolocator: ^6.0.0+4
+  flutter_secure_storage: ^3.3.4
 
 dev_dependencies:
   flutter_config: ^1.0.7

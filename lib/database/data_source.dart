@@ -5,20 +5,29 @@ import 'package:gezamycar/utils/constants.dart';
 
 class DataSource {
   final _db = FirebaseDatabase.instance;
+  final _auth = AuthServices();
   DatabaseReference _ref;
 
   DataSource() {
     _ref = _db.reference();
   }
 
-  Future<void> saveUser(User user) async {
-    return await _ref.child(kDbUserCollection).push().set(user.toJson());
+  Future<void> saveOrUpdateUser(User user) async {
+    print('DataStore: saveUser ${user.toString()}');
+    final _uid = _auth.getUID();
+    await _ref.child(kDbUserCollection).child(_uid).update(user.toJson());
   }
 
-  void readUser() {
-    final _auth = AuthServices();
-    _ref.child(kDbUserCollection).child(_auth.getUID()).onValue.listen((event) {
-      //@Todo (developer) do something about this user info
-    });
+  Stream<Event> readUser() {
+    final _uid = _auth.getUID();
+    return _ref.child(kDbUserCollection).child(_uid).onValue;
+  }
+
+  updateLastSignInTime(String timeStamp) {
+    final _uid = _auth.getUID();
+    _ref
+        .child(kDbUserCollection)
+        .child(_uid)
+        .update({kLstSignInTime: timeStamp});
   }
 }

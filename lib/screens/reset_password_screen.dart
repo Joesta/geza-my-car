@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gezamycar/common/myflutter_alert.dart';
 import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/exceptions/auth-exception-handler.dart';
+import 'package:gezamycar/managers/user_manager.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/utils/form_validators.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
@@ -9,24 +10,28 @@ import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/managers/user_manager.dart';
-
 import '../widgets/custom_text_form.dart';
 import 'login_screen.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
-  static const String id = 'ForgotPasswordScreen';
+class ResetPasswordScreen extends StatefulWidget {
+  static const String id = 'ResetPasswordScreen';
 
   @override
   _ForgotPasswordScreen createState() => _ForgotPasswordScreen();
 }
 
-class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreen extends State<ResetPasswordScreen> {
   final _formKey0 = GlobalKey<FormState>();
   final resetAlert = MyFlutterAlert.instance;
   String _email;
-  AuthResultStatus _emailStatus;
+  AuthResultStatus _status;
   bool _inAsyncCall = false;
+
+  _updateAsyncCallState() {
+    setState(() {
+      _inAsyncCall = !_inAsyncCall;
+    });
+  }
 
   void _submitRestForm() async {
     final form = _formKey0.currentState;
@@ -34,35 +39,33 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
 
     if (form.validate()) {
       print(_email);
+      _updateAsyncCallState();
 
-      setState(() {
-        _inAsyncCall = true;
-      });
-      _emailStatus = await _manager.resetPassword(_email);
+      // @Todo (developer) see what you can do about this not being implemented in the user model
 
-      if (_emailStatus == AuthResultStatus.successful) {
+      _status = await _manager.resetPassword(_email);
+      if (_status == AuthResultStatus.successful) {
+        _updateAsyncCallState();
         //show alert
         resetAlert.showAlert(
             buttonText: 'OK',
             onPressed: () => Navigator.popAndPushNamed(context, LoginScreen.id),
             context: context,
             alertType: AlertType.success,
-            description: 'Reset link sent!');
+            description: 'Password reset link was sent to your email!');
       } else {
+        _updateAsyncCallState();
         //show alert
         resetAlert.showAlert(
             buttonText: 'OK',
             onPressed: () =>
-                Navigator.popAndPushNamed(context, ForgotPasswordScreen.id),
+                Navigator.popAndPushNamed(context, ResetPasswordScreen.id),
             context: context,
             alertType: AlertType.error,
             description:
-                AuthExceptionHandler.generateExceptionMessage(_emailStatus));
+                AuthExceptionHandler.generateExceptionMessage(_status));
       }
     }
-    setState(() {
-      _inAsyncCall = false;
-    });
   }
 
   @override
@@ -97,7 +100,6 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      // child: LoginTextAnim(headingText: 'GEZA MY CAR', ),
                       child: Text(
                         'Reset password',
                         style: TextStyle(
@@ -127,7 +129,9 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
                             child: Column(
                               children: <Widget>[
                                 CustomTextFormField(
-                                  onChanged: null,
+                                  onChanged: (value) {
+                                    _email = value;
+                                  },
                                   labelText: 'Email address',
                                   isText: false,
                                   isEmail: true,
@@ -152,7 +156,6 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
                     ),
                   ],
                 ),
-                // ),
               ),
             ),
           ),

@@ -8,6 +8,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool isText;
   final bool isEmail;
   final bool isPhone;
+  final bool isEnabled;
+  final initialValue;
   final Function onChanged;
   final String labelText;
   final IconData icon;
@@ -16,11 +18,13 @@ class CustomTextFormField extends StatelessWidget {
   CustomTextFormField({
     @required this.onChanged,
     this.labelText,
+    this.initialValue = '',
     this.autoValidate = false,
     this.isObscure = false,
     this.isText = true,
     this.isEmail = false,
     this.isPhone = false,
+    this.isEnabled = true,
     this.icon,
     this.validator,
   });
@@ -31,9 +35,11 @@ class CustomTextFormField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       autovalidate: autoValidate,
+      initialValue: initialValue,
       obscureText: isObscure,
       maxLength: isPhone ? 10 : null,
       cursorColor: Colors.teal,
+      enabled: isEnabled,
       keyboardType: isEmail
           ? TextInputType.emailAddress
           : isPhone ? TextInputType.phone : TextInputType.text,
