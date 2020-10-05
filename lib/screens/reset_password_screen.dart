@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gezamycar/common/myflutter_alert.dart';
 import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/exceptions/auth-exception-handler.dart';
-import 'package:gezamycar/models/user_manager.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/utils/form_validators.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import 'file:///C:/Users/mogokong/AndroidStudioProjects/geza_my_car/lib/managers/user_manager.dart';
 
 import '../widgets/custom_text_form.dart';
 import 'login_screen.dart';
@@ -28,7 +29,6 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
   bool _inAsyncCall = false;
 
   void _submitRestForm() async {
-
     final form = _formKey0.currentState;
     final _manager = UserManager.instance;
 
@@ -56,12 +56,13 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
                 Navigator.popAndPushNamed(context, ForgotPasswordScreen.id),
             context: context,
             alertType: AlertType.error,
-            description: AuthExceptionHandler.generateExceptionMessage(_emailStatus));
+            description:
+                AuthExceptionHandler.generateExceptionMessage(_emailStatus));
       }
     }
-     setState(() {
-       _inAsyncCall = false;
-     });
+    setState(() {
+      _inAsyncCall = false;
+    });
   }
 
   @override
@@ -70,7 +71,7 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Rest Password',
+            'Reset password',
             style: TextStyle(letterSpacing: 2.0),
           ),
           backgroundColor: Colors.teal,
@@ -98,7 +99,7 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
                     Container(
                       // child: LoginTextAnim(headingText: 'GEZA MY CAR', ),
                       child: Text(
-                        'Rest Password',
+                        'Reset password',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,
@@ -126,10 +127,8 @@ class _ForgotPasswordScreen extends State<ForgotPasswordScreen> {
                             child: Column(
                               children: <Widget>[
                                 CustomTextFormField(
-                                  onChanged: (String email) {
-                                    _email = email.trim();
-                                  },
-                                  labelText: 'Email',
+                                  onChanged: null,
+                                  labelText: 'Email address',
                                   isText: false,
                                   isEmail: true,
                                   icon: Icons.email,

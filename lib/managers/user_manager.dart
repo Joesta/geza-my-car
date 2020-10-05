@@ -7,6 +7,7 @@ import 'package:gezamycar/services/auth_services.dart';
 
 class UserManager {
   UserManager._internal();
+
   static final instance = UserManager._internal();
 
   final _auth = AuthServices();
@@ -17,7 +18,7 @@ class UserManager {
   }
 
   // logs in a user with the provided credentials
-  Future<firebase.User> login(String emailAddress, String password) async {
+  Future<firebase.User> signIn(String emailAddress, String password) async {
     return await _auth.signIn(emailAddress, password);
   }
 
@@ -32,12 +33,14 @@ class UserManager {
     return await _dataSource.saveUser(user);
   }
 
+  void readData() => _dataSource.readUser();
+
   // get userId
   String getUID() => _auth.getUID();
 
   // logs out the current user
-  void logOut() {
-    _auth.signOut().then((value) => null);
+  Future<void> logOut() async {
+    await _auth.signOut();
   }
 
   void registerUser(Person user) {}
@@ -46,4 +49,7 @@ class UserManager {
   Future<AuthResultStatus> resetPassword(String emailAddress) async {
     return await _auth.resetPassword(emailAddress);
   }
+
+  // user metadata
+  firebase.UserMetadata get metadata => _auth.metadata;
 }
