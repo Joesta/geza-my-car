@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gezamycar/managers/user_manager.dart';
 import 'package:gezamycar/models/user.dart';
+import 'package:gezamycar/shared/flash_helper.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
@@ -37,11 +38,26 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         print('New user details ${_user.toString()}');
         await manager.saveOrUpdate(_user);
         _updateAsyncCallState();
+        FlashHelper.successBar(context, message: 'Profile updated succesfully');
       } catch (e) {
         _updateAsyncCallState();
         print(e);
       }
     }
+  }
+
+  @override
+  @override
+  void dispose() {
+    print('dispose running...');
+    FlashHelper.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    print('initstate running...');
+    super.initState();
   }
 
   @override
@@ -74,7 +90,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                         Hero(
                           tag: 'editProfile',
                           child: CircleAvatar(
-                            backgroundImage: AssetImage('images/skull.JPG'),
+                            backgroundImage:
+                                AssetImage('images/placeholder.png'),
                             radius: 120.0,
                           ),
                         ),

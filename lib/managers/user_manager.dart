@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:firebase_database/firebase_database.dart';
 import 'package:gezamycar/database/data_source.dart';
 import 'package:gezamycar/enums/auth-result-status.dart';
 import 'package:gezamycar/models/user.dart';
@@ -32,7 +33,7 @@ class UserManager {
     return await _dataSource.saveOrUpdateUser(user);
   }
 
-  void readData() => _dataSource.readUser();
+  Stream<Event> readData() => _dataSource.readUser();
 
   // get userId
   String getUID() => _auth.getUID();
@@ -61,4 +62,8 @@ class UserManager {
   updateLastSignInTime() {
     _dataSource.updateLastSignInTime(metadata.lastSignInTime.toIso8601String());
   }
+
+  Stream<firebase.User> get currentUser => _auth.authStateChanges;
+
+  String get photoUrl => _auth.photoUrl;
 }

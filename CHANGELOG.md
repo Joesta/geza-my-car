@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flutter maps
 - Flutter secure storage library
 - Colors file 
+- Flash Helper class. 
 
 ### Removed
 
@@ -44,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - data_source includes method to update lastSignInTime
 - user_manager implemented registerUser function and included extra function to update lastSignInTime
 - login_screen updates lastSignInTime
+- login to user streamBuilders 
 
 
 ### Security

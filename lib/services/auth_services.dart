@@ -32,6 +32,9 @@ class AuthServices {
     return _status;
   }
 
+  // get current user by observers
+  Stream<User> get authStateChanges => _auth.authStateChanges();
+
   // get current user
   User getCurrentUser() {
     return _auth.currentUser;
@@ -56,7 +59,7 @@ class AuthServices {
   UserMetadata get metadata => getCurrentUser().metadata;
 
   // logout
-  Future<void> signOut() {
-    return _auth.signOut();
-  }
+  Future<void> signOut() => _auth.signOut();
+
+  String get photoUrl => _auth.currentUser.photoURL;
 }

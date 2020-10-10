@@ -1,29 +1,55 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gezamycar/managers/user_manager.dart';
 import 'package:gezamycar/screens/bottom_nav_screen.dart';
-import 'package:gezamycar/screens/login_screen.dart';
-import 'package:gezamycar/utils/constants.dart';
+
+import 'login_screen.dart';
 
 class RootScreen extends StatefulWidget {
   static const String id = '/';
+
   @override
   _RootScreenState createState() => _RootScreenState();
 }
 
 class _RootScreenState extends State<RootScreen> {
-  final _storage = FlutterSecureStorage();
+  final _manager = UserManager.instance;
+
   String _uid;
+
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _storage.read(key: kUID).then((value) => _uid = value);
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     print('RootScreen: uid $_uid');
-    return _uid == null ? LoginScreen() : BottomNavScreen();
+    return SafeArea(
+      child: Scaffold(
+        body: StreamBuilder<User>(
+          stream: _manager.currentUser,
+          builder: (context, snapshot) {
+            if (snapshot.hasError)
+              return Container(
+                child: Center(
+                  child: Text(snapshot.data.toString()),
+                ),
+              );
+
+            if (snapshot.hasData) {
+              User user = snapshot.data;
+              return user == null ? LoginScreen() : BottomNavScreen();
+            }
+
+            return Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }

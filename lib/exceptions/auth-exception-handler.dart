@@ -9,7 +9,7 @@ class AuthExceptionHandler {
       case "ERROR_INVALID_EMAIL":
         status = AuthResultStatus.invalidEmail;
         break;
-      case "ERROR_WRONG_PASSWORD":
+      case "wrong-password":
         status = AuthResultStatus.wrongPassword;
         break;
       case "user-not-found":

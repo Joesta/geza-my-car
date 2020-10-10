@@ -16,6 +16,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('PhotoUrl ${_manager.photoUrl}');
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -64,7 +65,8 @@ class ProfileScreen extends StatelessWidget {
                                     child: CircleAvatar(
                                       radius: 85.0,
                                       backgroundImage:
-                                          AssetImage('images/skull.JPG'),
+//                                            NetworkImage(_manager.getPhotoUrl())
+                                          AssetImage('images/placeholder.png'),
                                     ),
                                   ),
                                   SizedBox(
