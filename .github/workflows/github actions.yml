@@ -13,8 +13,8 @@ jobs:
         with:
           java-version: '12.x'
       - uses: actions/subosito/flutter-action@v1
-         with:
-           - flutter-version: '1.17.0'
+        with:
+          flutter-version: '1.17.0'
       - run: flutter pub get
       - run: flutter build apk -t lib/main.dart --split-per-abi
       - name: Release apk
