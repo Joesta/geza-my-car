@@ -1,11 +1,21 @@
+import 'dart:ffi';
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gezamycar/managers/user_manager.dart';
 import 'package:gezamycar/models/user.dart';
+import 'package:gezamycar/screens/profile_screen.dart';
+import 'package:gezamycar/services/auth_services.dart';
 import 'package:gezamycar/shared/flash_helper.dart';
 import 'package:gezamycar/utils/constants.dart';
 import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:image_picker/image_picker.dart';
+
+
 
 class ProfileEditScreen extends StatefulWidget {
   static const String id = 'ProfileEditScreen';
@@ -19,6 +29,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final GlobalKey _toolTipKey = GlobalKey();
   User _user;
   bool _inAsyncCall = false;
+  final _auth = AuthServices();
 
   _updateAsyncCallState() {
     setState(() {
@@ -39,6 +50,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         await manager.saveOrUpdate(_user);
         _updateAsyncCallState();
         FlashHelper.successBar(context, message: 'Profile updated succesfully');
+        Navigator.pop(context);
       } catch (e) {
         _updateAsyncCallState();
         print(e);
@@ -46,7 +58,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     }
   }
 
-  @override
   @override
   void dispose() {
     print('dispose running...');
@@ -60,8 +71,43 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     super.initState();
   }
 
+  uploadImage() async {
+    debugPrint('uploadImage methed called');
+    final File _myImage = await PickMyImage.getImage();
+    if (_myImage != null) {
+      setState(() {
+        _inAsyncCall = true;
+      });
+      final imageName = _myImage.path.substring(_myImage.path.lastIndexOf('/') + 1);
+      final Reference firebaseStorageRef = FirebaseStorage.instance.ref().child(
+          "user/${_auth.getCurrentUser().uid}/$imageName");
+
+
+      UploadTask uploadTask = firebaseStorageRef.putFile(_myImage);
+      // final storageSnapshot = await uploadTask.onComplete;
+
+
+      uploadTask.then((result) => {
+            result.ref.getDownloadURL().then(
+                  (url) => {
+                    print('Download URL $url'),
+                    updateProfileImageUri(url)
+                  },
+                )
+          });
+    }
+  }
+
+  updateProfileImageUri(String url) {
+    setState(() {
+      _user.photoUrl = url;
+      _inAsyncCall = !_inAsyncCall;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    debugPrint('build method running...');
     _user = ModalRoute.of(context).settings.arguments;
 
     return SafeArea(
@@ -89,10 +135,12 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       children: [
                         Hero(
                           tag: 'editProfile',
-                          child: CircleAvatar(
-                            backgroundImage:
-                                AssetImage('images/placeholder.png'),
-                            radius: 120.0,
+                          child: GestureDetector(
+                            onTap: uploadImage,
+                            child: CircleAvatar(
+                              backgroundImage:  NetworkImage(_user.photoUrl),
+                              radius: 120.0,
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -199,5 +247,19 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         ),
       ),
     );
+  }
+}
+
+class PickMyImage {
+  static Future<File> getImage() async {
+    final image = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+      maxHeight: 1500,
+      maxWidth: 1500,
+    );
+    if (image != null) {
+      return File(image.path);
+    }
+    return null;
   }
 }

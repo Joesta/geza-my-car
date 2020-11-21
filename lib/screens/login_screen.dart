@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:gezamycar/common/myflutter_alert.dart';
+import 'package:gezamycar/exceptions/auth-exception-handler.dart';
 import 'package:gezamycar/managers/user_manager.dart';
 import 'package:gezamycar/screens/bottom_nav_screen.dart';
 import 'package:gezamycar/screens/reset_password_screen.dart';
@@ -12,6 +15,7 @@ import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:gezamycar/widgets/login_text_anim.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'LoginScreen';
@@ -25,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _storage = FlutterSecureStorage();
   String _email, _password;
   bool _inAsyncCall = false;
+  final resetAlert = MyFlutterAlert.instance;
 
   void _submit() async {
     final form = _formKey.currentState;
@@ -47,9 +52,18 @@ class _LoginScreenState extends State<LoginScreen> {
           //@Todo (Developer) goto main screen
           Navigator.pushReplacementNamed(context, BottomNavScreen.id);
         }
-      } catch (e) {
+      }on FirebaseAuthException catch (e) {
         _updateAsyncCallState();
-        print('submit: $e');
+
+        //show alert
+        resetAlert.showAlert(
+            buttonText: 'OK',
+            onPressed: () => Navigator.popAndPushNamed(context, LoginScreen.id),
+            context: context,
+            alertType: AlertType.error,
+            description: e.message);
+
+        print('submit: ${e.message}');
       }
     }
   }

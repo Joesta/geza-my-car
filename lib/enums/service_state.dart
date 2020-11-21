@@ -1,0 +1,4 @@
+enum ServiceState {
+  Queued,
+  Accepted
+}

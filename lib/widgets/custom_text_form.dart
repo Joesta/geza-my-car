@@ -9,11 +9,15 @@ class CustomTextFormField extends StatelessWidget {
   final bool isEmail;
   final bool isPhone;
   final bool isEnabled;
+  final bool isDigit;
   final initialValue;
   final Function onChanged;
   final String labelText;
   final IconData icon;
   final Function validator;
+  final InputDecoration decoration;
+  final String hintText;
+  final TextStyle style;
 
   CustomTextFormField({
     @required this.onChanged,
@@ -25,8 +29,12 @@ class CustomTextFormField extends StatelessWidget {
     this.isEmail = false,
     this.isPhone = false,
     this.isEnabled = true,
+    this.isDigit = false,
     this.icon,
     this.validator,
+    this.decoration,
+    this.hintText,
+    this.style
   });
 
   @override
@@ -37,15 +45,18 @@ class CustomTextFormField extends StatelessWidget {
       autovalidate: autoValidate,
       initialValue: initialValue,
       obscureText: isObscure,
-      maxLength: isPhone ? 10 : null,
+      maxLength: isPhone ? 10 : isDigit ? 13 : null,
       cursorColor: Colors.teal,
       enabled: isEnabled,
       keyboardType: isEmail
           ? TextInputType.emailAddress
-          : isPhone ? TextInputType.phone : TextInputType.text,
-      style: kTextStyle,
-      decoration: kTextFormInputDecoration.copyWith(
+          : isPhone ? TextInputType.phone : isDigit ? TextInputType.number : TextInputType.text,
+      style: style ?? kTextStyle,
+      decoration: decoration ?? kTextFormInputDecoration.copyWith(
         labelText: labelText,
+        hintText: hintText ?? null,
+        hintStyle: TextStyle(color: Colors.grey[500]),
+
         prefixIcon: Icon(
           icon,
           color: Colors.teal,

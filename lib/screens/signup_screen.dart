@@ -13,6 +13,7 @@ import 'package:gezamycar/widgets/custom_material_button.dart';
 import 'package:gezamycar/widgets/custom_text_form.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:flutter/services.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String id = 'SignUpScreen';
@@ -22,6 +23,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  static const platform = MethodChannel('com.rawbusttech.validator/idValidator');
   final _formKey = GlobalKey<FormState>();
   final User _user = User();
   final _alert = MyFlutterAlert.instance;
@@ -38,6 +40,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _user.gender(_selectedGender);
     });
     super.initState();
+  }
+
+  void validateId() async {
+    String value;
+
+    try {
+      value = await platform.invokeMethod('idValidator');
+    } catch(e) { print(e); }
+
+    print(value);
   }
 
   //@Todo (developer) move picker into a separate class to minify this class
@@ -92,6 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _inAsyncCall = true;
       });
 
+      _user.photoUrl = kImageHolder; // new users default to no profile photo available
       _status = await _user.signUp();
       if (_status == AuthResultStatus.successful) {
         setState(() {
@@ -195,6 +208,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   },
                                 ),
                                 SizedBox(height: kFormFieldHeightGap),
+                                CustomTextFormField(
+                                  icon: Icons.perm_identity,
+                                  labelText: 'ID Number',
+                                  onChanged: null,
+                                  isDigit: true,
+                                  validator: (String idNumber) {
+                                    try {
+                                      _user.idNumber(idNumber);
+                                      return null;
+                                    } catch (e) {
+                                      return e.toString();
+                                    }
+                                  },
+                                ),
+                                //SizedBox(height: kFormFieldHeightGap),
                                 Container(
                                   padding: EdgeInsets.only(left: 10.0),
                                   decoration: BoxDecoration(
@@ -232,6 +260,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   onChanged: null,
                                   validator: (String phoneNumber) {
                                     try {
+                                      if (phoneNumber.length < 10) throw MyException(kPhoneShort);
                                       _user.phoneNumber(phoneNumber);
                                       return null;
                                     } catch (e) {
@@ -239,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     }
                                   },
                                 ),
-                                SizedBox(height: kFormFieldHeightGap),
+                                //SizedBox(height: kFormFieldHeightGap),
                                 CustomTextFormField(
                                   isObscure: true,
                                   icon: Icons.lock,

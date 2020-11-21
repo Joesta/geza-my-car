@@ -11,6 +11,7 @@ import 'package:gezamycar/widgets/custom_material_button.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String id = 'ProfileScreen';
+
   final _manager = UserManager.instance;
   final _dataSource = DataSource();
 
@@ -26,19 +27,6 @@ class ProfileScreen extends StatelessWidget {
             style: TextStyle(letterSpacing: 2.0),
           ),
           backgroundColor: Colors.white24.withOpacity(.2),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            _manager.logOut();
-            Navigator.pushNamedAndRemoveUntil(
-                context, LoginScreen.id, (route) => false);
-          },
-          label: Text(
-            'Log Out',
-            style: TextStyle(letterSpacing: 2.0),
-          ),
-          icon: Icon(Icons.exit_to_app),
-          backgroundColor: Colors.red[300],
         ),
         backgroundColor: kBackgroundColor,
         body: StreamBuilder(
@@ -65,8 +53,7 @@ class ProfileScreen extends StatelessWidget {
                                     child: CircleAvatar(
                                       radius: 85.0,
                                       backgroundImage:
-//                                            NetworkImage(_manager.getPhotoUrl())
-                                          AssetImage('images/placeholder.png'),
+                                            NetworkImage(_user.photoUrl),
                                     ),
                                   ),
                                   SizedBox(
@@ -96,7 +83,7 @@ class ProfileScreen extends StatelessWidget {
                                         Icons.alternate_email,
                                         color: kColorBlack,
                                       ),
-                                      title: Text('${_user.getLastName()}'),
+                                      title: Text('${_user.getEmailAddress()}'),
                                     ),
                                   ),
                                   Card(

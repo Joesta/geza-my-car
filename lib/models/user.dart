@@ -8,7 +8,7 @@ import 'package:gezamycar/models/person.dart';
 import 'package:gezamycar/utils/constants.dart';
 
 class User extends Person with UserCredentialValidatorMixin {
-  String _role = 'User';
+  String _role = 'user';
   String _emailAddress;
   String _password;
   String _phoneNumber;
@@ -16,8 +16,8 @@ class User extends Person with UserCredentialValidatorMixin {
   User() : super();
 
   User.withParams(String firstName, String lastName, String gender, String role,
-      String emailAddress, String phoneNumber)
-      : super.withParams(firstName, lastName, gender) {
+      String emailAddress, String phoneNumber, String idNumber, String photoUrl)
+      : super.withParams(firstName, lastName, gender, idNumber, photoUrl) {
     _role = role;
     _emailAddress = emailAddress;
     _phoneNumber = phoneNumber;
@@ -31,7 +31,9 @@ class User extends Person with UserCredentialValidatorMixin {
         results[kGender],
         results[kRole],
         results[kEmailAddress],
-        results[kPhoneNumber]);
+        results[kPhoneNumber],
+        results[kIdNumber],
+        results[kPhotoUrl]);
   }
 
   // set user role
@@ -53,9 +55,46 @@ class User extends Person with UserCredentialValidatorMixin {
       ? throw MyException(kFieldIsRequired)
       : !_isValidPhoneLength(phoneNumber)
           ? MyException(kPhoneShort)
-          : _phoneNumber = phoneNumber;
+          : !_validatePhone(phoneNumber)
+              ? throw MyException(kInvalidPhone)
+              : _phoneNumber = phoneNumber;
+
+  bool _validatePhone(String phoneNumber) {
+    final phonePrefix = [
+      '060', // 06s
+      '061',
+      '062',
+      '063',
+      '065',
+      '071', // 07s
+      '072',
+      '073',
+      '074',
+      '075',
+      '076',
+      '078',
+      '079',
+      '081', // 08s
+      '082',
+      '083',
+      '084',
+      '011', // telephone line
+      '012',
+      '013',
+      '021',
+      '031',
+      '051',
+      '043',
+      '041',
+      '041',
+    ];
+
+    print('${phonePrefix.contains(phoneNumber.substring(0, 3))}');
+    return phonePrefix.contains(phoneNumber.substring(0, 3));
+  }
 
   String getPhoneNumber() => _phoneNumber;
+
   // get user role
   String getRole() => _role;
 
@@ -74,9 +113,11 @@ class User extends Person with UserCredentialValidatorMixin {
       kGender: this.getGender(),
       kEmailAddress: _emailAddress,
       kPhoneNumber: _phoneNumber,
+      kIdNumber: this.getIdNumber(),
       kRole: _role,
-      'creationTime': _manager.metadata.creationTime.toIso8601String(),
-      'lastSignInTime': _manager.metadata.lastSignInTime.toIso8601String()
+      kPhotoUrl: this.photoUrl,
+      'creationTimestamp': _manager.metadata.creationTime.toIso8601String(),
+      'lastSignInTimestamp': _manager.metadata.lastSignInTime.toIso8601String()
     };
   }
 

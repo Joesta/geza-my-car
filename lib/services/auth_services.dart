@@ -5,15 +5,19 @@ import 'package:gezamycar/exceptions/auth-exception-handler.dart';
 class AuthServices {
   final _auth = FirebaseAuth.instance;
   AuthResultStatus _status;
+  UserCredential _userCredential;
+  User _currentUser;
 
   // signIn user
   Future<User> signIn(String emailAddress, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
+      _userCredential = await _auth.signInWithEmailAndPassword(
           email: emailAddress, password: password);
-      return result.user;
-    } catch (e) {
-      throw Exception(e);
+      _currentUser = _userCredential.user;
+      return _userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      print('singIn: exception code: ${e.code}');
+      throw FirebaseAuthException(message: e.message, code: e.code);
     }
   }
 
@@ -57,6 +61,15 @@ class AuthServices {
   }
 
   UserMetadata get metadata => getCurrentUser().metadata;
+
+  void updateEmail(String newEmail) {
+   getCurrentUser().updateEmail(newEmail);
+   _currentUser.reauthenticateWithCredential(_userCredential.credential).then((value) {
+     value.user.reload();
+     _currentUser = value.user;
+   },);
+
+  }
 
   // logout
   Future<void> signOut() => _auth.signOut();
