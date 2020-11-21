@@ -1,8 +1,5 @@
 on:
   push:
-    branches: [ master ]
-    pull_request:
-      branches: [ master ]
     tags:
       - v*
 name: Continuous Delivery Release apk
@@ -16,12 +13,12 @@ jobs:
         with:
           java-version: '12.x'
       - uses: actions/subosito/flutter-action@v1
-         with:
-           - flutter-version: '1.17.0'
+        with:
+          flutter-version: '1.17.0'
       - run: flutter pub get
       - run: flutter build apk -t lib/main.dart --split-per-abi
       - name: Release apk
         uses: ncipollo/release-action@v1
         with:
           artifacts: "build/app/output/apk/release/*.apk"
-          toke: ${{secrets.TOKEN_GEZA}}
+          token: ${{secrets.TOKEN_GEZA}}
