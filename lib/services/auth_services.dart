@@ -33,7 +33,7 @@ class AuthServices {
     return _status;
   }
 
-  // current user
+  // get current user
   User getCurrentUser() {
     return _auth.currentUser;
   }
